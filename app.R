@@ -21,7 +21,7 @@ pdf(NULL)
 
 # Define UI for application that draws a histogram
 ui <- fluidPage(
-   
+   navbarPage(title = "MT Cars NavBar"),
    # Application title
    titlePanel("MTCars Data"),
    
@@ -43,7 +43,7 @@ ui <- fluidPage(
                      
           # Show a plot of the generated distribution
           mainPanel(
-             plotOutput("scatterplot")
+             plotlyOutput("scatterplot")
           )
        )
    ),
@@ -53,9 +53,9 @@ ui <- fluidPage(
 # Define server logic required to draw a histogram
 server <- function(input, output) {
    
-   output$scatterplot <- renderPlot({
+   output$scatterplot <- renderPlotly({
       #generate scatterplot
-      ggplot(cars, aes_string(x = input$x, y = input$y))+geom_smooth()
+      ggplotly(ggplot(cars, aes_string(x = input$x, y = input$y))+geom_smooth())
    })
 }
 
