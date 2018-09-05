@@ -48,7 +48,7 @@ ui <- navbarPage(title = "MT Cars NavBar with nothing it is thus far",
            ),
            fluidRow()
       ),
-      tabPanel(title = "Next tab",
+      tabPanel(title = "Data Table",
             fluidRow(
               column(6,
                      selectInput("make","Make:",
@@ -59,9 +59,9 @@ ui <- navbarPage(title = "MT Cars NavBar with nothing it is thus far",
               ),
             # Table
             fluidRow(
-              dataTableOutput("table")
+              DT::dataTableOutput("table")
             )
-            )
+          )
       )
       
       
@@ -73,7 +73,7 @@ server <- function(input, output) {
       #generate scatterplot
       ggplotly(ggplot(cars, aes_string(x = input$x, y = input$y))+geom_point() + geom_smooth())
    })
-   output$table <- renderDataTable(DT::datatable({
+   output$table <- DT::renderDataTable(DT::datatable({
      data <- cars
      if (input$make != "All") {
        data <- data[data$make == input$make,]
