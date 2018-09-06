@@ -21,7 +21,7 @@ cars$make <- gsub("([A-Za-z]+).*", "\\1", cars$model)
 pdf(NULL)
 
 # Define UI for application that draws a histogram
-ui <- navbarPage(title = "MT Cars NavBar with nothing it is thus far",
+ui <- navbarPage(title = "MTCars NavBars",
         # Tab Panel
         tabPanel("Plot",
         
@@ -38,7 +38,13 @@ ui <- navbarPage(title = "MT Cars NavBar with nothing it is thus far",
                      selectInput('x',
                                  'X axis:',
                                  choice = colnames(cars),
-                                 selected = "wt"),width = 4),
+                                 selected = "wt"),
+                    selectInput('z',
+                                "Color",
+                                choice = colnames(cars),
+                                selected = "make"),
+                                width = 4),
+                                
                              
                   # Show a plot of the generated distribution
                   mainPanel(
@@ -62,7 +68,7 @@ ui <- navbarPage(title = "MT Cars NavBar with nothing it is thus far",
               DT::dataTableOutput("table")
             )
           )
-      )
+      , fluid = TRUE)
       
       
 
@@ -71,7 +77,7 @@ server <- function(input, output) {
    
    output$scatterplot <- renderPlotly({
       #generate scatterplot
-      ggplotly(ggplot(cars, aes_string(x = input$x, y = input$y))+geom_point() + geom_smooth())
+      ggplotly(ggplot(cars, aes_string(x = input$x, y = input$y, color = input$z)) +geom_point() + geom_smooth())
    })
    output$table <- DT::renderDataTable(DT::datatable({
      data <- cars
