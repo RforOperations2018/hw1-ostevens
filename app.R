@@ -44,8 +44,6 @@ ui <- navbarPage(title = "MTCars NavBars",
                                 choice = colnames(cars),
                                 selected = "make"),
                                 width = 4),
-                                
-                             
                   # Show a plot of the generated distribution
                   mainPanel(
                      plotlyOutput("scatterplot")
@@ -79,6 +77,7 @@ server <- function(input, output) {
       #generate scatterplot
       ggplotly(ggplot(cars, aes_string(x = input$x, y = input$y, color = input$z)) +geom_point() + geom_smooth())
    })
+   # You don't need the datatable() function if you're not doing anything fancy, but it still works so its fine.
    output$table <- DT::renderDataTable(DT::datatable({
      data <- cars
      if (input$make != "All") {
@@ -94,4 +93,3 @@ server <- function(input, output) {
 
 # Run the application 
 shinyApp(ui = ui, server = server)
-
